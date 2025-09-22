@@ -17,16 +17,6 @@ import { AttendanceScanner } from '../AttendanceScanner';
 import { motion } from 'motion/react';
 import { useAuth } from '../../contexts/AuthContext';
 
-interface ContentSuggestion {
-  id: string;
-  title: string;
-  type: 'video' | 'article' | 'tutorial';
-  duration: string;
-  subject: string;
-  difficulty: 'easy' | 'medium' | 'hard';
-  thumbnail?: string;
-  description: string;
-}
 
 export function StudentPage() {
   const { user } = useAuth();
@@ -39,7 +29,7 @@ export function StudentPage() {
     streak: 5
   };
 
-  const suggestedContent: ContentSuggestion[] = [
+  const suggestedContent = [
     {
       id: '1',
       title: 'Introduction to Calculus - Limits and Derivatives',
@@ -93,7 +83,7 @@ export function StudentPage() {
     { subject: 'Chemistry', time: '2:00 PM', room: 'Lab 105', status: 'upcoming' },
   ];
 
-  const getContentIcon = (type: string) => {
+  const getContentIcon = (type) => {
     switch (type) {
       case 'video': return VideoIcon;
       case 'article': return FileText;
@@ -102,7 +92,7 @@ export function StudentPage() {
     }
   };
 
-  const getDifficultyColor = (difficulty: string) => {
+  const getDifficultyColor = (difficulty) => {
     switch (difficulty) {
       case 'easy': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
       case 'medium': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';

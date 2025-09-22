@@ -18,39 +18,29 @@ import {
 import { AttendanceScanner } from '../AttendanceScanner';
 import { motion } from 'motion/react';
 
-interface AttendanceRecord {
-  id: string;
-  studentName: string;
-  studentId: string;
-  date: string;
-  time: string;
-  status: 'present' | 'absent';
-  subject: string;
-}
-
 export function TeacherDashboard() {
   const [scannerEnabled, setScannerEnabled] = useState(false);
   const [currentClassStrength] = useState({ present: 28, total: 35 });
   
-  const todayAttendance: AttendanceRecord[] = [
+  const todayAttendance = [
     { id: '1', studentName: 'Alice Johnson', studentId: 'ST001', date: '2024-01-20', time: '09:15', status: 'present', subject: 'Mathematics' },
     { id: '2', studentName: 'Bob Smith', studentId: 'ST002', date: '2024-01-20', time: '09:18', status: 'present', subject: 'Mathematics' },
     { id: '3', studentName: 'Carol Davis', studentId: 'ST003', date: '2024-01-20', time: '09:22', status: 'present', subject: 'Mathematics' },
     { id: '4', studentName: 'David Wilson', studentId: 'ST004', date: '2024-01-20', time: '-', status: 'absent', subject: 'Mathematics' },
   ];
 
-  const previousDayAttendance: AttendanceRecord[] = [
+  const previousDayAttendance = [
     { id: '5', studentName: 'Alice Johnson', studentId: 'ST001', date: '2024-01-19', time: '09:12', status: 'present', subject: 'Physics' },
     { id: '6', studentName: 'Bob Smith', studentId: 'ST002', date: '2024-01-19', time: '09:25', status: 'present', subject: 'Physics' },
     { id: '7', studentName: 'Carol Davis', studentId: 'ST003', date: '2024-01-19', time: '-', status: 'absent', subject: 'Physics' },
     { id: '8', studentName: 'David Wilson', studentId: 'ST004', date: '2024-01-19', time: '09:30', status: 'present', subject: 'Physics' },
   ];
 
-  const handleScannerToggle = (enabled: boolean) => {
+  const handleScannerToggle = (enabled) => {
     setScannerEnabled(enabled);
   };
 
-  const handleScanComplete = (success: boolean, studentId?: string) => {
+  const handleScanComplete = (success, studentId) => {
     if (success && studentId) {
       console.log(`Attendance marked for student: ${studentId}`);
       // Here you would update the attendance records

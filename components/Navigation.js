@@ -24,12 +24,8 @@ import {
 } from './ui/dropdown-menu';
 import { motion, AnimatePresence } from 'motion/react';
 
-interface NavigationProps {
-  currentView: string;
-  onViewChange: (view: string) => void;
-}
 
-export function Navigation({ currentView, onViewChange }: NavigationProps) {
+export function Navigation({ currentView, onViewChange }) {
   const { user, logout } = useAuth();
   const { theme, setTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

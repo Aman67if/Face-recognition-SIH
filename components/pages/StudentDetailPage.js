@@ -16,36 +16,10 @@ import {
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { motion } from 'motion/react';
 
-interface StudentDetailProps {
-  studentId: string;
-  onBack: () => void;
-}
 
-interface StudentInfo {
-  id: string;
-  name: string;
-  age: number;
-  course: string;
-  email: string;
-  enrollmentDate: string;
-  currentAttendanceRate: number;
-  totalClassesTaken: number;
-  totalClassesAttended: number;
-  totalClassesMissed: number;
-}
-
-interface MonthlyAttendance {
-  month: string;
-  year: number;
-  totalClasses: number;
-  attended: number;
-  missed: number;
-  percentage: number;
-}
-
-export function StudentDetailPage({ studentId, onBack }: StudentDetailProps) {
+export function StudentDetailPage({ studentId, onBack }) {
   // Mock student data - in real app, this would come from API
-  const studentInfo: StudentInfo = {
+  const studentInfo = {
     id: studentId,
     name: studentId === 'ST001' ? 'Alice Johnson' : 
           studentId === 'ST002' ? 'Bob Smith' : 
@@ -61,7 +35,7 @@ export function StudentDetailPage({ studentId, onBack }: StudentDetailProps) {
   };
 
   // Mock monthly attendance data for the past 6 months
-  const monthlyAttendanceData: MonthlyAttendance[] = [
+  const monthlyAttendanceData = [
     {
       month: 'August',
       year: 2023,
@@ -120,7 +94,7 @@ export function StudentDetailPage({ studentId, onBack }: StudentDetailProps) {
     { date: '2024-01-16', subject: 'Physics', status: 'present', time: '11:25 AM' }
   ];
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-background border border-border rounded-lg p-3 shadow-lg">

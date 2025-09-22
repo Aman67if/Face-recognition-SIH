@@ -19,11 +19,8 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 
-interface SimpleNavigationProps {
-  onProfileClick?: () => void;
-}
 
-export function SimpleNavigation({ onProfileClick }: SimpleNavigationProps) {
+export function SimpleNavigation({ onProfileClick }) {
   const { user, logout } = useAuth();
   const { theme, setTheme } = useTheme();
 

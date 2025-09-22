@@ -172,7 +172,7 @@ export function AuthForm() {
 
                   <div className="space-y-2">
                     <Label htmlFor="signup-role">Role</Label>
-                    <Select value={signupData.role} onValueChange={(value: UserRole) => setSignupData({ ...signupData, role: value })}>
+                    <Select value={signupData.role} onValueChange={(value) => setSignupData({ ...signupData, role: value })}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select your role" />
                       </SelectTrigger>

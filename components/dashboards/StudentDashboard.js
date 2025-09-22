@@ -18,17 +18,9 @@ import {
 import { AttendanceScanner } from '../AttendanceScanner';
 import { motion } from 'motion/react';
 
-interface Document {
-  id: string;
-  name: string;
-  type: 'pdf' | 'image' | 'document';
-  size: string;
-  uploadDate: string;
-}
-
 export function StudentDashboard() {
   const [scannerEnabled] = useState(true); // This would come from teacher settings
-  const [documents, setDocuments] = useState<Document[]>([
+  const [documents, setDocuments] = useState([
     {
       id: '1',
       name: 'Academic Certificate.pdf',
@@ -58,11 +50,11 @@ export function StudentDashboard() {
     { subject: 'Chemistry', covered: 9, total: 12, pending: ['Organic Chemistry', 'Physical Chemistry', 'Biochemistry'] },
   ];
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = (event) => {
     const files = event.target.files;
     if (files) {
       Array.from(files).forEach(file => {
-        const newDoc: Document = {
+        const newDoc = {
           id: Date.now().toString() + Math.random(),
           name: file.name,
           type: file.type.includes('image') ? 'image' : file.type.includes('pdf') ? 'pdf' : 'document',
@@ -74,11 +66,11 @@ export function StudentDashboard() {
     }
   };
 
-  const deleteDocument = (id: string) => {
+  const deleteDocument = (id) => {
     setDocuments(prev => prev.filter(doc => doc.id !== id));
   };
 
-  const getFileIcon = (type: string) => {
+  const getFileIcon = (type) => {
     switch (type) {
       case 'image': return ImageIcon;
       case 'pdf': return FileText;

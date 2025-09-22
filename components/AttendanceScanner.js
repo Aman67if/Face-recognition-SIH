@@ -5,12 +5,8 @@ import { Camera, X, CheckCircle, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '../contexts/AuthContext';
 
-interface AttendanceScannerProps {
-  isEnabled?: boolean;
-  onScanComplete?: (success: boolean, studentId?: string) => void;
-}
 
-export function AttendanceScanner({ isEnabled = false, onScanComplete }: AttendanceScannerProps) {
+export function AttendanceScanner({ isEnabled = false, onScanComplete }) {
   const { user } = useAuth();
   const [isScanning, setIsScanning] = useState(false);
   const [scanResult, setScanResult] = useState<'success' | 'failed' | null>(null);

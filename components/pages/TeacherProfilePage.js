@@ -24,28 +24,8 @@ import { motion } from 'motion/react';
 import { useAuth } from '../../contexts/AuthContext';
 import { toast } from 'sonner@2.0.3';
 
-interface TeacherProfileProps {
-  onBack: () => void;
-}
 
-interface TeacherInfo {
-  id: string;
-  name: string;
-  email: string;
-  profilePicture: string;
-  specialization: string[];
-  experienceYears: number;
-  researchInterests: string[];
-  subjects: string[];
-  education: string;
-  department: string;
-  joinDate: string;
-  phoneNumber: string;
-  officeLocation: string;
-  bio: string;
-}
-
-export function TeacherProfilePage({ onBack }: TeacherProfileProps) {
+export function TeacherProfilePage({ onBack }) {
   const { user } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [profilePicturePreview, setProfilePicturePreview] = useState<string | null>(null);
@@ -72,14 +52,14 @@ export function TeacherProfilePage({ onBack }: TeacherProfileProps) {
     bio: 'Passionate educator with expertise in machine learning and data science. Committed to innovative teaching methods and student success through hands-on learning experiences.'
   });
 
-  const [editedInfo, setEditedInfo] = useState<TeacherInfo>(teacherInfo);
+  const [editedInfo, setEditedInfo] = useState(teacherInfo);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (event) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        const imageUrl = e.target?.result as string;
+        const imageUrl = e.target?.result;
         setProfilePicturePreview(imageUrl);
         setEditedInfo(prev => ({ ...prev, profilePicture: imageUrl }));
       };
@@ -100,7 +80,7 @@ export function TeacherProfilePage({ onBack }: TeacherProfileProps) {
     setProfilePicturePreview(null);
   };
 
-  const handleArrayFieldChange = (field: keyof TeacherInfo, value: string) => {
+  const handleArrayFieldChange = (field, value) => {
     const arrayValue = value.split(',').map(item => item.trim()).filter(item => item);
     setEditedInfo(prev => ({ ...prev, [field]: arrayValue }));
   };
