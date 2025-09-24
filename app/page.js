@@ -1,12 +1,14 @@
+"use client"
+
 import React from 'react';
-import { ThemeProvider } from './contexts/ThemeContext';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { SimpleNavigation } from './components/SimpleNavigation';
-import { AuthForm } from './components/auth/AuthForm';
-import { StudentPage } from './components/pages/StudentPage';
-import { TeacherPage } from './components/pages/TeacherPage';
-import { AdminDashboard } from './components/dashboards/AdminDashboard';
-import { Toaster } from './components/ui/sonner';
+import { ThemeProvider } from '@/contexts/ThemeContext';
+import { AuthProvider, useAuth } from '@/contexts/AuthContext';
+import { SimpleNavigation } from '@/components/SimpleNavigation';
+import { AuthForm } from '@/components/auth/AuthForm';
+import { StudentPage } from '@/components/pages/StudentPage';
+import { TeacherPage } from '@/components/pages/TeacherPage';
+import { AdminDashboard } from '@/components/dashboards/AdminDashboard';
+import { Toaster } from '@/components/ui/sonner';
 
 function AppContent() {
   const { user, isLoading } = useAuth();

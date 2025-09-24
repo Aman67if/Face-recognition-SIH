@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
@@ -16,7 +18,6 @@ export function AuthForm() {
     name: '', 
     email: '', 
     password: '', 
-    role: 'student'
   });
   const [error, setError] = useState('');
 
@@ -34,9 +35,9 @@ export function AuthForm() {
     e.preventDefault();
     try {
       setError('');
-      await signup(signupData.name, signupData.email, signupData.password, signupData.role);
+      await signup(signupData.name, signupData.email, signupData.password);
     } catch (err) {
-      setError('Signup failed');
+      setError('Signup failed please try again later');
     }
   };
 
@@ -57,8 +58,8 @@ export function AuthForm() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Welcome</CardTitle>
-            <CardDescription>Sign in to your account or create a new one</CardDescription>
+            <CardTitle className="text-lg font-semibold text-center">Welcome</CardTitle>
+            <CardDescription className="text-sm font-semibold text-center">Sign in to your account or create a new one</CardDescription>
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="login" className="space-y-4">
@@ -72,7 +73,7 @@ export function AuthForm() {
                   <div className="space-y-2">
                     <Label htmlFor="login-email">Email</Label>
                     <div className="relative">
-                      <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      <Mail className="absolute left-3 top-[50%] translate-y-[-50%] h-4 w-4 text-muted-foreground" />
                       <Input
                         id="login-email"
                         type="email"
@@ -88,7 +89,7 @@ export function AuthForm() {
                   <div className="space-y-2">
                     <Label htmlFor="login-password">Password</Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      <Lock className="absolute left-3 top-[50%] translate-y-[-50%] h-4 w-4 text-muted-foreground" />
                       <Input
                         id="login-password"
                         type="password"
@@ -110,13 +111,6 @@ export function AuthForm() {
                   <Button type="submit" className="w-full" disabled={isLoading}>
                     {isLoading ? 'Signing in...' : 'Sign In'}
                   </Button>
-
-                  <div className="text-sm text-muted-foreground space-y-1">
-                    <p>Demo accounts:</p>
-                    <p>• student@demo.com (Student)</p>
-                    <p>• teacher@demo.com (Teacher)</p>
-                    <p>• admin@demo.com (Admin)</p>
-                  </div>
                 </form>
               </TabsContent>
 
@@ -125,7 +119,7 @@ export function AuthForm() {
                   <div className="space-y-2">
                     <Label htmlFor="signup-name">Full Name</Label>
                     <div className="relative">
-                      <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      <User className="absolute left-3 top-[50%] translate-y-[-50%] h-4 w-4 text-muted-foreground" />
                       <Input
                         id="signup-name"
                         type="text"
@@ -141,7 +135,7 @@ export function AuthForm() {
                   <div className="space-y-2">
                     <Label htmlFor="signup-email">Email</Label>
                     <div className="relative">
-                      <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      <Mail className="absolute left-3 top-[50%] translate-y-[-50%] h-4 w-4 text-muted-foreground" />
                       <Input
                         id="signup-email"
                         type="email"
@@ -157,7 +151,7 @@ export function AuthForm() {
                   <div className="space-y-2">
                     <Label htmlFor="signup-password">Password</Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      <Lock className="absolute left-3 top-[50%] translate-y-[-50%] h-4 w-4 text-muted-foreground" />
                       <Input
                         id="signup-password"
                         type="password"
@@ -168,20 +162,6 @@ export function AuthForm() {
                         required
                       />
                     </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-role">Role</Label>
-                    <Select value={signupData.role} onValueChange={(value) => setSignupData({ ...signupData, role: value })}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select your role" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="student">Student</SelectItem>
-                        <SelectItem value="teacher">Teacher</SelectItem>
-                        <SelectItem value="admin">Admin</SelectItem>
-                      </SelectContent>
-                    </Select>
                   </div>
 
                   {error && (

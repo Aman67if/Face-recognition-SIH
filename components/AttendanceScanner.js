@@ -1,60 +1,70 @@
-import React, { useState, useRef, useCallback } from 'react';
-import { Button } from './ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Camera, X, CheckCircle, AlertCircle } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
-import { useAuth } from '../contexts/AuthContext';
+"use client";
 
+import React, { useState, useRef, useCallback, useEffect } from "react";
+import { Button } from "./ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { Camera, X, CheckCircle, AlertCircle } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { useAuth } from "../contexts/AuthContext";
 
 export function AttendanceScanner({ isEnabled = false, onScanComplete }) {
   const { user } = useAuth();
   const [isScanning, setIsScanning] = useState(false);
-  const [scanResult, setScanResult] = useState<'success' | 'failed' | null>(null);
-  const [stream, setStream] = useState<MediaStream | null>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const [scanResult, setScanResult] = useState(null);
+  const [stream, setStream] = useState(null);
+  const videoRef = useRef(null);
 
   const startScanning = useCallback(async () => {
     try {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: 'user' } 
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "user" },
       });
-      
       setStream(mediaStream);
       setIsScanning(true);
-      
-      if (videoRef.current) {
-        videoRef.current.srcObject = mediaStream;
-        videoRef.current.play();
-      }
 
       // Simulate face recognition after 3 seconds
       setTimeout(() => {
         const success = Math.random() > 0.3; // 70% success rate for demo
-        setScanResult(success ? 'success' : 'failed');
+        setScanResult(success ? "success" : "failed");
         onScanComplete?.(success, success ? user?.id : undefined);
-        
+
         // Auto-close after showing result
         setTimeout(() => {
-          stopScanning();
+          stopScanning(); 
         }, 2000);
       }, 3000);
-      
     } catch (error) {
-      console.error('Error accessing camera:', error);
-      setScanResult('failed');
+      console.error("Error accessing camera:", error);
+      setScanResult("failed");
     }
   }, [onScanComplete, user?.id]);
 
+  useEffect(() => {
+    if (isScanning && stream && videoRef.current) {
+      videoRef.current.srcObject = stream;
+      videoRef.current
+        .play()
+        .then(() => console.log("Video is playing"))
+        .catch((err) => console.error("Error playing video:", err));
+    }
+  }, [isScanning, stream]);
+
   const stopScanning = useCallback(() => {
     if (stream) {
-      stream.getTracks().forEach(track => track.stop());
+      stream.getTracks().forEach((track) => track.stop());
       setStream(null);
     }
     setIsScanning(false);
     setScanResult(null);
   }, [stream]);
 
-  if (!isEnabled && user?.role === 'student') {
+  if (!isEnabled && user?.role === "student") {
     return (
       <Card>
         <CardHeader>
@@ -63,7 +73,8 @@ export function AttendanceScanner({ isEnabled = false, onScanComplete }) {
             <span>Attendance Scanner</span>
           </CardTitle>
           <CardDescription>
-            Scanner is currently disabled. Please wait for your teacher to enable it.
+            Scanner is currently disabled. Please wait for your teacher to
+            enable it.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -85,20 +96,20 @@ export function AttendanceScanner({ isEnabled = false, onScanComplete }) {
             <span>Attendance Scanner</span>
           </CardTitle>
           <CardDescription>
-            {user?.role === 'student' 
-              ? 'Scan your face to mark attendance' 
-              : 'Students can use this to mark their attendance'}
+            {user?.role === "student"
+              ? "Scan your face to mark attendance"
+              : "Students can use this to mark their attendance"}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button 
+          <Button
             onClick={startScanning}
             disabled={!isEnabled}
             className="w-full"
             variant={isEnabled ? "default" : "secondary"}
           >
             <Camera className="mr-2 h-4 w-4" />
-            {isEnabled ? 'Start Scan' : 'Scanner Disabled'}
+            {isEnabled ? "Start Scan" : "Scanner Disabled"}
           </Button>
         </CardContent>
       </Card>
@@ -119,7 +130,9 @@ export function AttendanceScanner({ isEnabled = false, onScanComplete }) {
               className="bg-background rounded-lg p-6 max-w-md w-full"
             >
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold">Face Recognition Scanner</h3>
+                <h3 className="text-lg font-semibold">
+                  Face Recognition Scanner
+                </h3>
                 <Button variant="ghost" size="sm" onClick={stopScanning}>
                   <X className="h-4 w-4" />
                 </Button>
@@ -133,7 +146,7 @@ export function AttendanceScanner({ isEnabled = false, onScanComplete }) {
                   playsInline
                   muted
                 />
-                
+
                 {/* Scanning Overlay */}
                 {!scanResult && (
                   <div className="absolute inset-0 flex items-center justify-center">
@@ -152,7 +165,7 @@ export function AttendanceScanner({ isEnabled = false, onScanComplete }) {
                     animate={{ scale: 1 }}
                     className="absolute inset-0 flex items-center justify-center bg-black/50"
                   >
-                    {scanResult === 'success' ? (
+                    {scanResult === "success" ? (
                       <div className="text-center text-white">
                         <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-2" />
                         <p>Attendance Marked!</p>
@@ -169,7 +182,7 @@ export function AttendanceScanner({ isEnabled = false, onScanComplete }) {
               </div>
 
               <div className="text-center text-sm text-muted-foreground">
-                {!scanResult ? 'Position your face in the circle...' : ''}
+                {!scanResult ? "Position your face in the circle..." : ""}
               </div>
             </motion.div>
           </motion.div>

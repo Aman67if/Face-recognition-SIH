@@ -1,10 +1,10 @@
+"use client"
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
-
-
-const AuthContext = createContext(undefined);
+const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -45,16 +45,16 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const signup = async (name, email, password, role) => {
+  const signup = async (name, email, password) => {
     setIsLoading(true);
     try {
-      // Mock signup - replace with real API call
-      const newUser = {
-        id: Date.now().toString(),
-        name,
-        email,
-        role,
-      };
+      const res = await fetch('http://localhost:8080/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      if (!res.ok) throw new Error('Signup failed');
       
       setUser(newUser);
       localStorage.setItem('token', 'mock-jwt-token');

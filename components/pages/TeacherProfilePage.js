@@ -22,15 +22,15 @@ import {
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useAuth } from '../../contexts/AuthContext';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 
 export function TeacherProfilePage({ onBack }) {
   const { user } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
-  const [profilePicturePreview, setProfilePicturePreview] = useState<string | null>(null);
+  const [profilePicturePreview, setProfilePicturePreview] = useState(null);
 
-  const [teacherInfo, setTeacherInfo] = useState<TeacherInfo>({
+  const [teacherInfo, setTeacherInfo] = useState({
     id: 'T001',
     name: 'Dr. Sarah Mitchell',
     email: 'teacher@demo.com',

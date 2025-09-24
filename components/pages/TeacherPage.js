@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState } from "react";
 import {
   Card,
@@ -45,25 +47,6 @@ import { TeacherProfilePage } from "./TeacherProfilePage";
 import { motion } from "motion/react";
 import { useAuth } from "../../contexts/AuthContext";
 
-interface AttendanceRecord {
-  id: string;
-  studentName: string;
-  studentId: string;
-  date: string;
-  time: string;
-  status: "present" | "absent";
-  subject: string;
-}
-
-interface ClassSession {
-  id: string;
-  subject: string;
-  time: string;
-  room: string;
-  totalStudents: number;
-  presentStudents: number;
-  scannerEnabled: boolean;
-}
 
 export function TeacherPage() {
   const { user } = useAuth();
@@ -72,14 +55,10 @@ export function TeacherPage() {
   const [selectedClass, setSelectedClass] = useState("all");
   const [selectedDate, setSelectedDate] = useState("today");
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedStudentId, setSelectedStudentId] = useState<
-    string | null
-  >(null);
+  const [selectedStudentId, setSelectedStudentId] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
 
-  const [classSessions, setClassSessions] = useState<
-    ClassSession[]
-  >([
+  const [classSessions, setClassSessions] = useState([
     {
       id: "1",
       subject: "Mathematics",
@@ -109,7 +88,7 @@ export function TeacherPage() {
     },
   ]);
 
-  const attendanceRecords: AttendanceRecord[] = [
+  const attendanceRecords = [
     {
       id: "1",
       studentName: "Alice Johnson",
@@ -184,7 +163,7 @@ export function TeacherPage() {
     },
   ];
 
-  const handleGlobalScannerToggle = (enabled: boolean) => {
+  const handleGlobalScannerToggle = (enabled) => {
     setGlobalScannerEnabled(enabled);
     setClassSessions((sessions) =>
       sessions.map((session) => ({
@@ -195,8 +174,8 @@ export function TeacherPage() {
   };
 
   const handleClassScannerToggle = (
-    classId: string,
-    enabled: boolean,
+    classId,
+    enabled,
   ) => {
     setClassSessions((sessions) =>
       sessions.map((session) =>
@@ -248,7 +227,7 @@ export function TeacherPage() {
       100,
   );
 
-  const handleStudentClick = (studentId: string) => {
+  const handleStudentClick = (studentId) => {
     setSelectedStudentId(studentId);
   };
 

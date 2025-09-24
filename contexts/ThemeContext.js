@@ -1,3 +1,5 @@
+"use client"
+
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 
@@ -7,11 +9,37 @@ const ThemeContext = createContext(undefined);
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState('system');
 
-  const getSystemTheme = () => {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  };
+  const useSystemTheme = () => {
+  const [theme, setTheme] = useState('light'); // Default theme
 
-  const actualTheme = theme === 'system' ? getSystemTheme() : theme;
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const getSystemTheme = () => {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      };
+
+      // Set the initial theme based on the system setting
+      setTheme(getSystemTheme());
+
+      // Listen for changes to the system's theme preference
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handleThemeChange = (e) => {
+        setTheme(e.matches ? 'dark' : 'light');
+      };
+
+      mediaQuery.addEventListener('change', handleThemeChange);
+
+      // Cleanup event listener when component unmounts
+      return () => {
+        mediaQuery.removeEventListener('change', handleThemeChange);
+      };
+    }
+  }, []); // This effect runs once after the component mounts
+
+  return theme;
+};
+
+  const actualTheme = theme === 'system' ? useSystemTheme() : theme;
 
   useEffect(() => {
     const root = window.document.documentElement;
